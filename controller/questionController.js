@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 async function createQuestion(req, res) {
   const questionid = uuidv4(); // Generate a unique question ID using uuid
   const { title, description } = req.body;
-  // console.log(req.body, "create question body");
-  const { userid } = req.user;
+  console.log(req.body, "create question body");
+  const { user_id } = req.user;
   // Validate required fields
   if (!title || !description) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -18,7 +18,7 @@ async function createQuestion(req, res) {
     // Insert question into the database
     await dbConnection.query(
       "INSERT INTO questions (title, description, question_id, user_id) VALUES (?, ?, ?, ?)",
-      [title, description, questionid, userid]
+      [title, description, questionid, user_id]
     );
 
     return res
